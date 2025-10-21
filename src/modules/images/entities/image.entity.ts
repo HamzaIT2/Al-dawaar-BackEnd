@@ -17,6 +17,9 @@ export class Image {
   @Column({ name: 'product_id' })
   productId: number;
 
+  @Column()
+  url:string;
+
   @Column({ name: 'image_url', length: 255 })
   imageUrl: string;
 

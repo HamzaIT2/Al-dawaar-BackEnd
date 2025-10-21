@@ -79,7 +79,7 @@ export class UsersController {
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard, AdminGuard)
+  @UseGuards(JwtAuthGuard , AdminGuard)
   @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Deactivate user account (only own account)' })
   @ApiResponse({ status: 200, description: 'Account deactivated successfully' })

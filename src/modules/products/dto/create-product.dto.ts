@@ -25,6 +25,9 @@ export class CreateProductDto {
   @ApiProperty({ example: 1 })
   @IsNumber()
   cityId: number;
+  @IsString()
+  @IsOptional()
+  address?:string;
 
   @ApiProperty({ required: false, enum: ['new', 'like_new', 'good', 'fair', 'poor'], example: 'like_new' })
   @IsOptional()
