@@ -54,7 +54,7 @@ async function bootstrap() {
   // Serve static files from /uploads
   app.useStaticAssets(join(__dirname, '..', 'uploads'), { prefix: '/uploads' });
 
-  const port = configService.get<number>('PORT') || 3000;
+  const port = configService.get<number>('PORT') || 3001;
   await app.listen(port);
 
   console.log(`🚀 Application is running on: http://localhost:${port}/api/v1`);
