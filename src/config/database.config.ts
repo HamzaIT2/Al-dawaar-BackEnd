@@ -13,7 +13,7 @@ export const getDatabaseConfig = (
   entities: [__dirname + '/../**/*.entity{.ts,.js}'],
   synchronize: configService.get<string>('NODE_ENV','NODE_ENV') === 'development',
   logging: configService.get<string>('NODE_ENV','NODE_ENV') === 'development',
-  ssl: false,
+  ssl: { rejectUnauthorized: false },
   extra: {
     max: 10,
   },
