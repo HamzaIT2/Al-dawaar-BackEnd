@@ -28,4 +28,4 @@ import { Product } from '../products/entities/product.entity';
   providers: [ImagesService],
   controllers: [ImagesController]
 })
-export class ImagesModule {}
+export class ImagesModule { }

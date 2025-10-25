@@ -3,10 +3,15 @@ import {
   Get,
   Body,
   Patch,
+  Put,
+  Post,
   Param,
   Delete,
   UseGuards,
+  UseInterceptors,
   Query,
+  ParseIntPipe,
+  UploadedFile,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -15,6 +20,7 @@ import {
   ApiBearerAuth,
   ApiQuery,
 } from '@nestjs/swagger';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
@@ -42,8 +48,39 @@ export class UsersController {
   @ApiOperation({ summary: 'Get current user profile (requires authentication)' })
   @ApiResponse({ status: 200, description: 'Profile retrieved successfully' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  getProfile(@CurrentUser() user: User) {
-    return this.usersService.getProfile(user.userId);
+  async getProfile(@CurrentUser() user: User) {
+    const profile = await this.usersService.getProfile(user.userId);
+    return { ...profile, avatar: profile.profileImage };
+  }
+
+  @Patch('profile')
+  @Put('profile')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({ summary: 'Update current user profile' })
+  @ApiResponse({ status: 200, description: 'Profile updated successfully' })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  updateProfile(
+    @CurrentUser() user: User,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
+    return this.usersService.update(user.userId, updateUserDto, user);
+  }
+
+  @Post('avatar')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('JWT-auth')
+  @UseInterceptors(FileInterceptor('avatar'))
+  @ApiOperation({ summary: 'Upload and set current user avatar (profile image)' })
+  @ApiResponse({ status: 201, description: 'Avatar uploaded and profile updated' })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  uploadAvatar(
+    @CurrentUser() user: User,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    const imagePath = `/uploads/${file.filename}`;
+    this.usersService.update(user.userId, { profileImage: imagePath } as UpdateUserDto, user);
+    return { avatar: imagePath };
   }
 
   @Get('username/:username')
@@ -71,7 +108,7 @@ export class UsersController {
   @ApiResponse({ status: 403, description: 'Forbidden - can only update own profile' })
   @ApiResponse({ status: 404, description: 'User not found' })
   update(
-    @Param('id') id: number,
+    @Param('id', ParseIntPipe) id: number,
     @Body() updateUserDto: UpdateUserDto,
     @CurrentUser() user: User,
   ) {
@@ -79,7 +116,7 @@ export class UsersController {
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard , AdminGuard)
+  @UseGuards(JwtAuthGuard, AdminGuard)
   @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Deactivate user account (only own account)' })
   @ApiResponse({ status: 200, description: 'Account deactivated successfully' })

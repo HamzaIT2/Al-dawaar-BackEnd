@@ -12,12 +12,13 @@ import { ProductsService } from './products.service';
 import { ProductsController } from './products.controller';
 import { Product } from './entities/product.entity';
 import { Image } from '../images/entities/image.entity'; 
+import { Review } from '../reviews/entities/review.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Product, Image]), 
+    TypeOrmModule.forFeature([Product, Image, Review]), 
 
-    // ✨ إعداد Multer
+    // إعداد Multer
     MulterModule.register({
       storage: diskStorage({
         destination: './uploads', 

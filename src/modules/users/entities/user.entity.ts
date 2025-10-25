@@ -14,6 +14,7 @@ import { City } from '../../provinces/entities/city.entity';
 
 @Entity('users')
 export class User {
+  [x: string]: any;
   @PrimaryGeneratedColumn({ name: 'user_id' })
   userId: number;
 
@@ -85,7 +86,7 @@ export class User {
   @ManyToOne(() => Province, { nullable: true })
   @JoinColumn({ name: 'province_id' })
   province: Province;
-
+  // @OneToMany(()=>Image,(images)=>images)
   @ManyToOne(() => City, { nullable: true })
   @JoinColumn({ name: 'city_id' })
   city: City;

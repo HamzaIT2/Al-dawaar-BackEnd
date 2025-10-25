@@ -11,6 +11,7 @@ import { ProvincesModule } from './modules/provinces/provinces.module';
 import { ConversationsModule } from './modules/conversations/conversations.module';
 import { MessagesModule } from './modules/messages/messages.module';
 import { TransactionsModule } from './modules/transactions/transactions.module';
+import { ChatsModule } from './modules/chats/chats.module';
 import { ReviewsModule } from './modules/reviews/reviews.module';
 import { FavoritesModule } from './modules/favorites/favorites.module';
 import { ImagesModule } from './modules/images/images.module';
@@ -38,6 +39,7 @@ import { AuthModule } from './modules/auth/auth.module';
     ConversationsModule,
     MessagesModule,
     TransactionsModule,
+    ChatsModule,
     ReviewsModule,
     FavoritesModule,
     ImagesModule,

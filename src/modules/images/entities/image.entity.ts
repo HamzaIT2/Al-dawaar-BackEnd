@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Product } from '../../products/entities/product.entity';
+import { User } from 'src/modules/users/entities/user.entity';
 
 @Entity('images')
 export class Image {
@@ -34,7 +35,9 @@ export class Image {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
-
+  // @ManyToOne(()=> User,(user)=>user.image,{
+    
+  // })
   // Relations
   @ManyToOne(() => Product, (product) => product.images, {
     onDelete: 'CASCADE',
