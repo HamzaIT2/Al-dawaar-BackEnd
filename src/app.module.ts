@@ -22,7 +22,8 @@ import { AuthModule } from './modules/auth/auth.module';
     // Configuration
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env',
+      envFilePath: process.env.NODE_ENV === 'production' ? undefined : '.env',
+      //envFilePath: '.env',
     }),
 
     // Database
