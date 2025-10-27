@@ -17,7 +17,7 @@ export class ChatsController {
 
   @Post()
   async createOrGetChat(@Req() req, @Body() dto: CreateChatDto) {
-    const buyerId = req.user.userId;
+    const buyerId = Number(req.user.userId);
     if (!dto.sellerId) throw new BadRequestException('sellerId is required');
     if (dto.sellerId === buyerId) throw new BadRequestException('Cannot start chat with yourself');
     const id = await this.chatsService.createOrGetChat(buyerId, dto.sellerId, dto.productId);
@@ -26,7 +26,7 @@ export class ChatsController {
 
   @Get()
   async listMyChats(@Req() req) {
-    const userId = req.user.userId;
+    const userId = Number(req.user.userId);
     return this.chatsService.listChats(userId);
   }
 
@@ -36,7 +36,7 @@ export class ChatsController {
     @Param('chatId', ParseIntPipe) chatId: number,
     @Query('limit') limitQ?: string,
   ) {
-    const userId = req.user.userId;
+    const userId = Number(req.user.userId);
     const limit = Math.min(parseInt(limitQ || '50', 10) || 50, 100);
     await this.chatsService.ensureMember(chatId, userId);
     return this.chatsService.listMessages(chatId, limit);
@@ -48,7 +48,7 @@ export class ChatsController {
     @Param('chatId', ParseIntPipe) chatId: number,
     @Body() dto: SendMessageDto,
   ) {
-    const userId = req.user.userId;
+    const userId = Number(req.user.userId);
     await this.chatsService.ensureMember(chatId, userId);
     if (dto.type !== 'text' || !dto.text?.trim()) {
       throw new BadRequestException('Only text messages with non-empty text are allowed in MVP');
@@ -81,7 +81,7 @@ export class ChatsController {
     @UploadedFile() file: Express.Multer.File,
     @Body() body: any,
   ) {
-    const userId = req.user.userId;
+    const userId = Number(req.user.userId);
     if (!file) throw new BadRequestException('No file uploaded');
 
     let conversationId = chatId;
