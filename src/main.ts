@@ -14,7 +14,7 @@ async function bootstrap() {
 
   // Enable CORS
   app.enableCors({
-    origin: 'https://al-dawaar-backend.onrender.com.vercel.app',
+    origin: 'https://aldawaarr.vercel.app',
     methods: ["GET", "POST", "PATCH", "DELETE"],
     credentials: true,
   });
@@ -56,7 +56,7 @@ async function bootstrap() {
   // Serve static files from /uploads
   app.useStaticAssets(join(__dirname, '..', 'uploads'), { prefix: '/uploads' });
 
-  const port = configService.get<number>('PORT') || 10000;
+  const port = configService.get<number>('PORT') || 3000;
   await app.listen(port);
 
   console.log(`🚀 Application is running on: http://localhost:${port}/api/v1`);
