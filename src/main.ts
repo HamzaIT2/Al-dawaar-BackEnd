@@ -15,6 +15,7 @@ async function bootstrap() {
   // Enable CORS
   app.enableCors({
     origin: 'https://al-dawaar-backend.onrender.com.vercel.app',
+    methods: ["GET", "POST", "PATCH", "DELETE"],
     credentials: true,
   });
 
