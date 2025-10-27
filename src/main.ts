@@ -14,8 +14,9 @@ async function bootstrap() {
 
   // Enable CORS
   app.enableCors({
-    origin: 'https://aldawaarr.vercel.app',
-    methods: ["GET", "POST", "PATCH", "DELETE"],
+    origin: ['https://aldawaarr.vercel.app'],
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
     credentials: true,
   });
 
@@ -57,7 +58,7 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname, '..', 'uploads'), { prefix: '/uploads' });
 
   const port = configService.get<number>('PORT') || 3000;
-  await app.listen(port);
+  await app.listen(port, '0.0.0.0');
 
   console.log(`🚀 Application is running on: http://localhost:${port}/api/v1`);
   console.log(`📚 Swagger documentation: http://localhost:${port}/api/docs`);
