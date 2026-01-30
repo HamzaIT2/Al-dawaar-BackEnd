@@ -67,7 +67,7 @@ export class UsersController {
     return this.usersService.update(user.userId, updateUserDto, user);
   }
 
-  @Post('avatar')
+  @Post('users/:id/avatar')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('JWT-auth')
   @UseInterceptors(FileInterceptor('avatar'))

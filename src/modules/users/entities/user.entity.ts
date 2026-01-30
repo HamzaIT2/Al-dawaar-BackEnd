@@ -68,12 +68,32 @@ export class User {
   totalSales: number;
 
   /// new column for role 
-  @Column({ 
-    type: 'enum', 
-    enum: ['user', 'admin'], 
-    default: 'user' 
+  @Column({
+    type: 'enum',
+    enum: ['user', 'admin'],
+    default: 'user'
   })
   role: 'user' | 'admin';
+
+  @Column({
+    type: 'enum',
+    enum: ['buyer', 'seller', 'both'],
+    default: 'both',
+    nullable: true
+  })
+  userType: 'buyer' | 'seller' | 'both';
+
+  @Column({ nullable: true })
+  resetPasswordToken: string;
+
+  @Column({ type: 'timestamp', nullable: true })
+  resetPasswordExpiry: Date;
+
+  @Column({ nullable: true })
+  verificationCode: string;
+
+  @Column({ type: 'timestamp', nullable: true })
+  verificationCodeExpiry: Date;
 
 
   @CreateDateColumn({ name: 'created_at' })

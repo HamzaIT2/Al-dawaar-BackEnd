@@ -6,6 +6,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 
+
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
@@ -14,12 +15,14 @@ async function bootstrap() {
 
   // Enable CORS
   app.enableCors({
-    origin: ['https://aldawaarr.vercel.app'],
+    origin: ['http://localhost:5173', 'https://aldawaarr.vercel.app','http://localhost:3000'],
     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With','Cache-Control','X-HTTP-Method-Override','X-CSRF-Token', ],
     credentials: true,
+    
   });
 
+  //'https://aldawaarr.vercel.app'
 
   // Global validation pipe
   app.useGlobalPipes(

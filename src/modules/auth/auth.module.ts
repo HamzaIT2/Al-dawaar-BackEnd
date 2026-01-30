@@ -10,6 +10,7 @@ import { User } from '../users/entities/user.entity';
 
 @Module({
   imports: [
+    AuthModule,
     TypeOrmModule.forFeature([User]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({

@@ -8,7 +8,7 @@ import { User } from '../users/entities/user.entity';
 @ApiTags('Reviews')
 @Controller('reviews')
 export class ReviewsController {
-  constructor(private readonly reviewsService: ReviewsService) {}
+  constructor(private readonly reviewsService: ReviewsService) { }
 
   @Get('user/:userId')
   @ApiOperation({ summary: 'List reviews for a user (as reviewed target)' })

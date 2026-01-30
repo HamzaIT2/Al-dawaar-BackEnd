@@ -14,7 +14,7 @@ export class ReviewsService {
     private readonly txRepo: Repository<Transaction>,
     @InjectRepository(User)
     private readonly userRepo: Repository<User>,
-  ) {}
+  ) { }
 
   async listForUser(userId: number, page = 1, limit = 20) {
     const [items, total] = await this.reviewRepo.findAndCount({

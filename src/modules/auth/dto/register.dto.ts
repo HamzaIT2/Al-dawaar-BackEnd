@@ -1,4 +1,4 @@
-import { IsString, IsEmail, MinLength, IsOptional, IsEnum } from 'class-validator';
+import { IsString, IsEmail, MinLength, IsOptional, IsEnum, IsNumber } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class RegisterDto {
@@ -37,4 +37,14 @@ export class RegisterDto {
   @IsOptional()
   @IsEnum(['buyer', 'seller', 'both'])
   userType?: 'buyer' | 'seller' | 'both';
+
+  @ApiProperty({ required: false, example: 1 })
+  @IsOptional()
+  @IsNumber()
+  province_id?: number;
+
+  @ApiProperty({ required: false, example: 1 })
+  @IsOptional()
+  @IsNumber()
+  city_id?: number;
 }

@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { getDatabaseConfig } from './config/database.config';
 
@@ -16,7 +16,7 @@ import { ReviewsModule } from './modules/reviews/reviews.module';
 import { FavoritesModule } from './modules/favorites/favorites.module';
 import { ImagesModule } from './modules/images/images.module';
 import { AuthModule } from './modules/auth/auth.module';
-
+import { MailerModule } from '@nestjs-modules/mailer';
 @Module({
   imports: [
     // Configuration
@@ -30,6 +30,22 @@ import { AuthModule } from './modules/auth/auth.module';
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: getDatabaseConfig,
+      
+    }),
+
+    MailerModule.forRoot({
+      transport:{
+        host:'smtp.gmail.com',
+        port:587,
+        secure:false,
+        auth:{
+          user:'hamza.hitham.it22@stu.uoninevah.edu.iq',
+          pass:'iihf ctbo zkim niiz'
+        },
+      },
+      defaults:{
+        from:'"No Reply" <hamza.hitham.it22@stu.uoninevah.edu.iq>'
+      },
       
     }),
 
