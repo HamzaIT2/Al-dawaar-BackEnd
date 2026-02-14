@@ -344,6 +344,9 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { User } from '../users/entities/user.entity';
 import { Review } from '../reviews/entities/review.entity';
+import { VipPlan } from '../vip-plan/entities/vip-plan.entity';
+import { create } from 'domain';
+import { MoreThan } from 'typeorm';
 
 @Injectable()
 export class ProductsService {
@@ -356,7 +359,52 @@ export class ProductsService {
     private imageRepository: Repository<Image>,
     @InjectRepository(Review)
     private reviewRepository: Repository<Review>,
+
+
+    @InjectRepository(VipPlan) private vipPlanRepo: Repository<VipPlan>
+
+
   ) { }
+
+  async getHeroSlides() {
+    const now = new Date();
+    console.log('--- Checking Hero Slides ---');
+    console.log('Current Server Time:', now);
+    const slides = await this.productRepository.find({
+      where: {
+        isVip: true,
+        vipExpiryDate: MoreThan(now), // التاريخ أكبر من "الآن"
+      },
+      order: { vipExpiryDate: 'DESC' }, // الأحدث يظهر أولاً
+      relations: ['images'],
+      take: 5, // جلب 5 فقط
+    });
+    console.log('Active Slides Found:', slides.length);
+    slides.forEach(s => {
+      console.log(`ID: ${s.productId} | Title: ${s.title} | Expires: ${s.vipExpiryDate}`);
+    });
+    return slides;
+  }
+  async getPlans() {
+    return await this.vipPlanRepo.find();
+  }
+
+  async promoteProduct(productId: number, planId: number) {
+    // جلب الباقة لمعرفة عدد الأيام
+    const plan = await this.vipPlanRepo.findOne({ where: { id: planId } });
+    if (!plan) throw new Error('Plan not found');
+
+    // حساب تاريخ الانتهاء (اليوم + عدد أيام الباقة)
+    const expiryDate = new Date();
+    expiryDate.setDate(expiryDate.getDate() + plan.days);
+
+    // تحديث المنتج
+    await this.productRepository.update(productId, {
+      isVip: true,
+      vipExpiryDate: expiryDate,
+    });
+    return { message: 'Product promoted successfully' };
+  }
 
   // 2. دالة إنشاء المنتج مع حفظ الصور
   async create(
@@ -583,4 +631,11 @@ export class ProductsService {
     await this.productRepository.remove(product);
     return { message: 'Product deleted successfully' };
   }
+
+
+
+
+
+
+
 }

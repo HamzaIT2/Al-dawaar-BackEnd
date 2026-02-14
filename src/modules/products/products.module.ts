@@ -13,10 +13,11 @@ import { ProductsController } from './products.controller';
 import { Product } from './entities/product.entity';
 import { Image } from '../images/entities/image.entity'; 
 import { Review } from '../reviews/entities/review.entity';
+import { VipPlan } from '../vip-plan/entities/vip-plan.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Product, Image, Review]), 
+    TypeOrmModule.forFeature([Product, Image, Review, VipPlan]), 
 
     // إعداد Multer
     MulterModule.register({

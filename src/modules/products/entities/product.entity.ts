@@ -55,6 +55,13 @@ export class Product {
   @Column({ name: 'view_count', default: 0 })
   viewCount: number;
 
+
+  @Column({ default: false })
+  isVip: boolean;
+
+  @Column({ type: 'timestamp', nullable: true })
+  vipExpiryDate: Date;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 

@@ -5,13 +5,16 @@ import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
-
+import listEndpoints from 'express-list-endpoints';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   // Get config service
   const configService = app.get(ConfigService);
+
+
+
 
   // Enable CORS
   app.enableCors({
@@ -58,10 +61,14 @@ async function bootstrap() {
   SwaggerModule.setup('api/docs', app, document);
 
   // Serve static files from /uploads
-  app.useStaticAssets(join(__dirname, '..', 'uploads'), { prefix: '/uploads' });
+  app.useStaticAssets(join(process.cwd(), 'uploads'), { prefix: '/uploads' });
 
   const port = configService.get<number>('PORT') || 3000;
   await app.listen(port, '0.0.0.0');
+
+  const server = app.getHttpAdapter().getInstance();
+  const endpoints = listEndpoints(server)
+  
 
   console.log(`🚀 Application is running on: http://localhost:${port}/api/v1`);
   console.log(`📚 Swagger documentation: http://localhost:${port}/api/docs`);

@@ -21,12 +21,30 @@ import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
 import { User } from '../users/entities/user.entity';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';import { FilesInterceptor } from '@nestjs/platform-express';
-4
+
 
 @ApiTags('Products')
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
+
+  @Get('hero-slides')
+async getHero() {
+    return this.productsService.getHeroSlides();
+  }
+
+@Get('plans/all')
+  async getAllPlans() {
+    return this.productsService.getPlans();
+  }
+  @Post('promote/:id')
+  async promoteProduct(
+    @Param('id') id: string, 
+    @Body('planId') planId: number,
+   ) {
+    return this.productsService.promoteProduct(+id, planId);
+  }
+
 
   // products.controller.ts
 
@@ -184,3 +202,4 @@ create(
     return this.productsService.remove(id, user);
   }
 }
+

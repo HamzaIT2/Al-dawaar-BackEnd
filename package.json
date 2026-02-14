@@ -31,6 +31,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "cors": "^2.8.6",
+    "express-list-endpoints": "^7.1.1",
     "nodemailer": "^7.0.13",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
@@ -42,6 +43,7 @@
     "typeorm": "^0.3.17"
   },
   "devDependencies": {
+    "@mermaid-js/mermaid-cli": "^11.12.0",
     "@nestjs/cli": "^10.0.0",
     "@nestjs/schematics": "^10.0.0",
     "@nestjs/testing": "^10.0.0",
@@ -59,6 +61,7 @@
     "nodemon": "^3.1.10",
     "prettier": "^3.0.0",
     "prisma": "^6.18.0",
+    "prisma-erd-generator": "^2.4.2",
     "ts-node": "^10.9.1",
     "typescript": "^5.1.3"
   }

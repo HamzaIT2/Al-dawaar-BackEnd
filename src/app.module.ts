@@ -17,6 +17,10 @@ import { FavoritesModule } from './modules/favorites/favorites.module';
 import { ImagesModule } from './modules/images/images.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { MailerModule } from '@nestjs-modules/mailer';
+import {VipPlan} from './modules/vip-plan/entities/vip-plan.entity';
+import { Product } from './modules/products/entities/product.entity';
+import { ProductsService } from './modules/products/products.service';
+import { ProductsController } from './modules/products/products.controller';
 @Module({
   imports: [
     // Configuration
@@ -62,6 +66,8 @@ import { MailerModule } from '@nestjs-modules/mailer';
     FavoritesModule,
     ImagesModule,
     AuthModule,
+    TypeOrmModule.forFeature([Product,VipPlan]),
   ],
+
 })
 export class AppModule {}
