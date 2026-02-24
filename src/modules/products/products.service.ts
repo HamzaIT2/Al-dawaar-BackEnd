@@ -619,7 +619,7 @@ export class ProductsService {
     if (product.seller.userId !== user.userId) { // التحقق باستخدام علاقة البائع
       throw new ForbiddenException('You can only update your own products');
     }
-    Object.assign(product, updateProductDto);
+    this.productRepository.merge(product, updateProductDto);
     return await this.productRepository.save(product);
   }
 
